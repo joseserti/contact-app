@@ -2,9 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 
-//import Root from "./routes/root";
 import ErrorPage from "./error-page";
-import Contact from "./routes/contact";
+import Contact, {
+  loader as contactLoader,
+} from "./routes/contact";
 
 import {
   createBrowserRouter,
@@ -13,7 +14,11 @@ import {
 
 import './index.css'
 
-import Root, { loader as rootLoader } from "./routes/root";
+import Root, { loader as rootLoader, action as rootAction, } from "./routes/root";
+
+import EditContact, {
+  action as editAction,
+} from "./routes/edit";
 
 const router = createBrowserRouter([
   {
@@ -21,10 +26,18 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     loader: rootLoader,
+    action: rootAction,
     children: [
       {
         path: "contacts/:contactId",
         element: <Contact />,
+        loader: contactLoader,
+      },
+      {
+        path: "contacts/:contactId/edit",
+        element: <EditContact />,
+        loader: contactLoader,
+        action: editAction,
       },
     ],
   },
